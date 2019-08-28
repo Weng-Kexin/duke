@@ -10,28 +10,42 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
 
-        String horzline = "____________________________________________________________ \n";
-        System.out.println(horzline + "Hello! I'm Duke \n" + "What can I do for you? \n" + horzline);
+        String horzline = "____________________________________________________________";
+        System.out.println(horzline + "\n" + "Hello! I'm Duke \n" + "What can I do for you? \n" + horzline);
 
-        String[] myArray = new String[100];
+        Task[] myArray = new Task[100];
         int i = 1;
         boolean br = false;
         while (!br) {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
+            String word = "done";
+            boolean isDone = input.indexOf("done") == 0; //returns 0 if done is the first word
+
             if (input.equals("bye")) { //cant use "==" to compare strings **find out why
                 br = true;
-                System.out.println(horzline + "Bye. Hope to see you again soon!\n" + horzline);
+                System.out.println(horzline + "\n" + "Bye. Hope to see you again soon!\n" + horzline);
             } else if (input.equals("list")) { //list the array
-                System.out.println(horzline);
+                System.out.println(horzline + "\n" + "Here are the tasks in your list:");
                 for (int j = 1; j < i; j++) {
-                    System.out.println(j + ". " + myArray[j]);
+                    System.out.println(j + ". " + "[" + myArray[j].getStatusIcon() + "] " + myArray[j].getTaskName());
                 }
                 System.out.println(horzline);
-            } else { //add to array
-                myArray[i] = input;
-                i++;
-                System.out.println(horzline + "added: " + input + "\n" + horzline);
+            } else { //add to array or mark as done
+                if (isDone) {
+                    String[] splitted = input.split(" ");
+                    String temp = splitted[1];
+                    int taskNum = Integer.parseInt(temp);
+                    String doneTask = myArray[taskNum].getTaskName();
+                    myArray[taskNum].markAsDone(doneTask);
+                    System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
+                    System.out.println("[\u2713] " + doneTask + "\n" + horzline);
+                } else {
+                    Task t = new Task(input);
+                    myArray[i] = t;
+                    i++;
+                    System.out.println(horzline + "\n" + "added: " + input + "\n" + horzline);
+                }
             }
         }
     }
