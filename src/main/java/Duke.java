@@ -28,7 +28,7 @@ public class Duke {
             } else if (input.equals("list")) { //list the array
                 System.out.println(horzline + "\n" + "Here are the tasks in your list:");
                 for (int j = 1; j < i; j++) {
-                    System.out.println(j + ". " + "[" + myArray[j].getStatusIcon() + "] " + myArray[j].getTaskName());
+                    System.out.println(j + "." + myArray[j]);
                 }
                 System.out.println(horzline);
             } else { //add to array or mark as done
@@ -36,10 +36,9 @@ public class Duke {
                     String[] splitted = input.split(" ");
                     String temp = splitted[1];
                     int taskNum = Integer.parseInt(temp);
-                    String doneTask = myArray[taskNum].getTaskName();
-                    myArray[taskNum].markAsDone(doneTask);
+                    myArray[taskNum].markAsDone();
                     System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
-                    System.out.println("[\u2713] " + doneTask + "\n" + horzline);
+                    System.out.println(myArray[taskNum] + "\n" + horzline);
                 } else {
                     Task t = new Task(input);
                     myArray[i] = t;

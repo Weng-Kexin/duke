@@ -7,15 +7,16 @@ public class Task {
         this.isDone = false;
     }
 
-    public String getStatusIcon() {
-        return (this.isDone ?  "\u2713" : "\u2718");
-    }
-
-    public String getTaskName() {
-        return (this.description);
-    }
-
-    public void markAsDone(String description) {
+    public void markAsDone() {
         this.isDone = true;
+    }
+
+    @Override
+    public String toString() {
+        if (this.isDone) {
+            return ("[\u2713] " + this.description);
+        } else {
+            return ("[\u2718] " + this.description);
+        }
     }
 }
