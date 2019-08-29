@@ -41,7 +41,11 @@ public class Duke {
                             System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
                             System.out.println(myArray[taskNum] + "\n" + horzline);
                         } catch (Exception e) {
-                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a done cannot be empty.\n" + horzline); //got bug here
+                            if (splitted.length == 1) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a done cannot be empty.\n" + horzline);
+                            } else {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The number is out of range.\n" + horzline);
+                            }
                         }
                         break;
                     case "todo":
@@ -51,10 +55,14 @@ public class Duke {
                                 temp += splitted[k];
                                 temp += " ";
                             }
-                            myArray[i] = new ToDo(temp);
-                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                            i++;
+                            if (splitted.length == 1) { //the exception handling for todo
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a todo cannot be empty.\n" + horzline);
+                            } else {
+                                myArray[i] = new ToDo(temp);
+                                System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
+                                System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
+                                i++;
+                            }
                         } catch (Exception e) {
                             System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a todo cannot be empty.\n" + horzline);
                         }
@@ -89,7 +97,7 @@ public class Duke {
                             String tempTask = "", tempAt = "";
                             boolean isAt = false;
                             for (int k = 1; k < splitted.length; k++) {
-                                if (splitted[k].equals("/by")) isAt = true;
+                                if (splitted[k].equals("/at")) isAt = true;
                                 if (isAt) {
                                     if (!splitted[k].equals("/at")) { //need to do this to get rid of "/at"
                                         tempAt += splitted[k];
