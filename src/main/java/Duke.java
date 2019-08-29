@@ -32,62 +32,86 @@ public class Duke {
             } else {
                 //add to array or mark as done
                 String[] splitted = input.split(" ");
-                if (splitted[0].equals("done")) {
-                    String temp = splitted[1];
-                    int taskNum = Integer.parseInt(temp);
-                    myArray[taskNum].markAsDone();
-                    System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
-                    System.out.println(myArray[taskNum] + "\n" + horzline);
-                } else if (splitted[0].equals("todo")) {
-                    String temp = "";
-                    for (int k = 1; k < splitted.length; k++) {
-                        temp += splitted[k];
-                        temp += " ";
-                    }
-                    myArray[i] = new ToDo(temp);
-                    System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                    System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                    i++;
-                } else if (splitted[0].equals("deadline")) {
-                    String tempTask = "", tempBy = "";
-                    boolean isBy = false;
-                    for (int k = 1; k < splitted.length; k++) {
-                        if (splitted[k].equals("/by")) isBy = true;
-                        if (isBy) {
-                            if (!splitted[k].equals("/by")) { //need to do this to get rid of "/by"
-                                tempBy += splitted[k];
-                                tempBy += " ";
-                            }
-                        } else {
-                            tempTask += splitted[k];
-                            tempTask += " ";
+                switch (splitted[0]) {
+                    case "done":
+                        try {
+                            String temp = splitted[1];
+                            int taskNum = Integer.parseInt(temp);
+                            myArray[taskNum].markAsDone();
+                            System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
+                            System.out.println(myArray[taskNum] + "\n" + horzline);
+                        } catch (Exception e) {
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a done cannot be empty.\n" + horzline); //got bug here
                         }
-                    }
-                    tempBy = tempBy.substring(0, tempBy.length() - 1); //to remove the last space
-                    myArray[i] = new Deadline(tempTask, tempBy);
-                    System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                    System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                    i++;
-                } else if (splitted[0].equals("event")) {
-                    String tempTask = "", tempAt = "";
-                    boolean isAt = false;
-                    for (int k = 1; k < splitted.length; k++) {
-                        if (splitted[k].equals("/by")) isAt = true;
-                        if (isAt) {
-                            if (!splitted[k].equals("/at")) { //need to do this to get rid of "/at"
-                                tempAt += splitted[k];
-                                tempAt += " ";
+                        break;
+                    case "todo":
+                        try {
+                            String temp = "";
+                            for (int k = 1; k < splitted.length; k++) {
+                                temp += splitted[k];
+                                temp += " ";
                             }
-                        } else {
-                            tempTask += splitted[k];
-                            tempTask += " ";
+                            myArray[i] = new ToDo(temp);
+                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
+                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
+                            i++;
+                        } catch (Exception e) {
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a todo cannot be empty.\n" + horzline);
                         }
-                    }
-                    tempAt = tempAt.substring(0, tempAt.length() - 1); //to remove the last space
-                    myArray[i] = new Event(tempTask, tempAt);
-                    System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                    System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                    i++;
+                        break;
+                    case "deadline":
+                        try {
+                            String tempTask = "", tempBy = "";
+                            boolean isBy = false;
+                            for (int k = 1; k < splitted.length; k++) {
+                                if (splitted[k].equals("/by")) isBy = true;
+                                if (isBy) {
+                                    if (!splitted[k].equals("/by")) { //need to do this to get rid of "/by"
+                                        tempBy += splitted[k];
+                                        tempBy += " ";
+                                    }
+                                } else {
+                                    tempTask += splitted[k];
+                                    tempTask += " ";
+                                }
+                            }
+                            tempBy = tempBy.substring(0, tempBy.length() - 1); //to remove the last space
+                            myArray[i] = new Deadline(tempTask, tempBy);
+                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
+                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
+                            i++;
+                        } catch (Exception e) {
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a deadline cannot be empty.\n" + horzline);
+                        }
+                        break;
+                    case "event":
+                        try {
+                            String tempTask = "", tempAt = "";
+                            boolean isAt = false;
+                            for (int k = 1; k < splitted.length; k++) {
+                                if (splitted[k].equals("/by")) isAt = true;
+                                if (isAt) {
+                                    if (!splitted[k].equals("/at")) { //need to do this to get rid of "/at"
+                                        tempAt += splitted[k];
+                                        tempAt += " ";
+                                    }
+                                } else {
+                                    tempTask += splitted[k];
+                                    tempTask += " ";
+                                }
+                            }
+                            tempAt = tempAt.substring(0, tempAt.length() - 1); //to remove the last space
+                            myArray[i] = new Event(tempTask, tempAt);
+                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
+                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
+                            i++;
+                        } catch (Exception e) {
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of an event cannot be empty.\n" + horzline);
+                        }
+                        break;
+                    default:
+                        System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
+                        break;
                 }
             }
         }
