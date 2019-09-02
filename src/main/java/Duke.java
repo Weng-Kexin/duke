@@ -1,7 +1,9 @@
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner; //import scanner to read in input
 
 public class Duke {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -13,20 +15,26 @@ public class Duke {
         String horzline = "____________________________________________________________";
         System.out.println(horzline + "\n" + "Hello! I'm Duke \n" + "What can I do for you? \n" + horzline);
 
-        Task[] myArray = new Task[100];
-        int i = 1;
-        boolean br = false;
-        while (!br) {
+        ArrayList<Task> myArray = new ArrayList<>();
+        Storage storage = new Storage();
+        int i = 0;
+
+        String filePath = "C:\\Users\\Asus\\Desktop\\duke\\src\\main\\java\\data\\duke.txt";
+        //read from file here
+        storage.readFromFile(filePath, myArray);
+        i += myArray.size();
+
+        while (true) {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
-            if (input.equals("bye")) { //cant use "==" to compare strings **find out why
-                br = true;
+            if (input.equals("bye")) { //cant use "==" to compare strings **it only compares the memory address
                 System.out.println(horzline + "\n" + "Bye. Hope to see you again soon!\n" + horzline);
-            } else if (input.equals("list")) { //list the array
+                break;
+            } else if (input.equals("list")) { //list the array directly from Task[]
                 System.out.println(horzline + "\n" + "Here are the tasks in your list:");
-                for (int j = 1; j < i; j++) {
-                    System.out.println(j + "." + myArray[j]);
+                for (int j = 0; j < myArray.size(); j++) {
+                    System.out.println((j + 1) + "." + myArray.get(j));
                 }
                 System.out.println(horzline);
             } else {
@@ -36,10 +44,10 @@ public class Duke {
                     case "done":
                         try {
                             String temp = splitted[1];
-                            int taskNum = Integer.parseInt(temp);
-                            myArray[taskNum].markAsDone();
+                            int taskNum = Integer.parseInt(temp) - 1;
+                            myArray.get(taskNum).markAsDone(); //use get to modify/access the element
                             System.out.println(horzline + "\n" + "Nice! I've marked this task as done:");
-                            System.out.println(myArray[taskNum] + "\n" + horzline);
+                            System.out.println(myArray.get(taskNum) + "\n" + horzline);
                         } catch (Exception e) {
                             if (splitted.length == 1) {
                                 System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a done cannot be empty.\n" + horzline);
@@ -58,9 +66,9 @@ public class Duke {
                             if (splitted.length == 1) { //the exception handling for todo
                                 System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a todo cannot be empty.\n" + horzline);
                             } else {
-                                myArray[i] = new ToDo(temp);
-                                System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                                System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
+                                myArray.add(new ToDo(temp));
+                                System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
+                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
@@ -83,11 +91,15 @@ public class Duke {
                                     tempTask += " ";
                                 }
                             }
-                            tempBy = tempBy.substring(0, tempBy.length() - 1); //to remove the last space
-                            myArray[i] = new Deadline(tempTask, tempBy);
-                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                            i++;
+                            if (!isBy || splitted.length == 1) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a deadline cannot be empty.\n" + horzline);
+                            } else {
+                                tempBy.trim(); tempTask.trim();
+                                myArray.add(new Deadline(tempTask, tempBy));
+                                System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
+                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
+                                i++;
+                            }
                         } catch (Exception e) {
                             System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a deadline cannot be empty.\n" + horzline);
                         }
@@ -108,11 +120,15 @@ public class Duke {
                                     tempTask += " ";
                                 }
                             }
-                            tempAt = tempAt.substring(0, tempAt.length() - 1); //to remove the last space
-                            myArray[i] = new Event(tempTask, tempAt);
-                            System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray[i]);
-                            System.out.println("Now you have " + i + " tasks in the list.\n" + horzline);
-                            i++;
+                            if (!isAt || splitted.length == 1) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of an event cannot be empty.\n" + horzline);
+                            } else {
+                                tempAt.trim(); //to remove the last space
+                                myArray.add(new Event(tempTask, tempAt));
+                                System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
+                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
+                                i++;
+                            }
                         } catch (Exception e) {
                             System.out.println(horzline + "\n" + "☹ OOPS!!! The description of an event cannot be empty.\n" + horzline);
                         }
@@ -123,5 +139,6 @@ public class Duke {
                 }
             }
         }
+        storage.saveToFile(myArray, filePath);
     }
 }
