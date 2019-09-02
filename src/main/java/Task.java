@@ -19,4 +19,12 @@ public class Task {
             return ("[\u2718] " + this.description);
         }
     }
+
+    public String textFormat() { //to store in text file, format is ".isDone .description"
+        if (this.isDone) {
+            return ("1 " + this.description);
+        } else {
+            return ("0 " + this.description);
+        }
+    }
 }
