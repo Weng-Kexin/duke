@@ -17,12 +17,10 @@ public class Duke {
 
         ArrayList<Task> myArray = new ArrayList<>();
         Storage storage = new Storage();
-        int i = 0;
 
         String filePath = "C:\\Users\\Asus\\Desktop\\duke\\src\\main\\java\\data\\duke.txt";
-        //read from file here
-        storage.readFromFile(filePath, myArray);
-        i += myArray.size();
+        storage.readFromFile(filePath, myArray); //read from file
+        int i = myArray.size();
 
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -38,7 +36,7 @@ public class Duke {
                 }
                 System.out.println(horzline);
             } else {
-                //add to array or mark as done
+                DateAndTimeConverter c = new DateAndTimeConverter();
                 String[] splitted = input.split(" ");
                 switch (splitted[0]) {
                     case "done":
@@ -72,7 +70,7 @@ public class Duke {
                                 i++;
                             }
                         } catch (Exception e) {
-                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a todo cannot be empty.\n" + horzline);
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
                         }
                         break;
                     case "deadline":
@@ -94,14 +92,14 @@ public class Duke {
                             if (!isBy || splitted.length == 1) {
                                 System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a deadline cannot be empty.\n" + horzline);
                             } else {
-                                tempBy.trim(); tempTask.trim();
-                                myArray.add(new Deadline(tempTask, tempBy));
+                                tempBy = c.convert(tempBy);
+                                myArray.add(new Deadline(tempTask.trim(), tempBy.trim()));
                                 System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
                                 System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
-                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a deadline cannot be empty.\n" + horzline);
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
                         }
                         break;
                     case "event":
@@ -123,14 +121,14 @@ public class Duke {
                             if (!isAt || splitted.length == 1) {
                                 System.out.println(horzline + "\n" + "☹ OOPS!!! The description of an event cannot be empty.\n" + horzline);
                             } else {
-                                tempAt.trim(); //to remove the last space
-                                myArray.add(new Event(tempTask, tempAt));
+                                tempAt = c.convert(tempAt);
+                                myArray.add(new Event(tempTask.trim(), tempAt.trim()));
                                 System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
                                 System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
-                            System.out.println(horzline + "\n" + "☹ OOPS!!! The description of an event cannot be empty.\n" + horzline);
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
                         }
                         break;
                     default:

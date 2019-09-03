@@ -1,6 +1,0 @@
-todo 1 study
-deadline 0 duke /by tmr
-todo 1 stydyyy
-event 1 school /at eeroeirt
-todo 1 SLEEP
-todo 0 SLEEEEEEEEEP 
