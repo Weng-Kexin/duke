@@ -30,11 +30,16 @@ public class Duke {
                 System.out.println(horzline + "\n" + "Bye. Hope to see you again soon!\n" + horzline);
                 break;
             } else if (input.equals("list")) { //list the array directly from Task[]
-                System.out.println(horzline + "\n" + "Here are the tasks in your list:");
-                for (int j = 0; j < myArray.size(); j++) {
-                    System.out.println((j + 1) + "." + myArray.get(j));
+                if (myArray.size() == 0) {
+                    System.out.println(horzline + "\n" + "There are no tasks in your list.\n" + horzline);
+                } else {
+                    String t = (myArray.size() == 1 ? " task " : " tasks ");
+                    System.out.println(horzline + "\n" + "Here are the" + t + "in your list:");
+                    for (int j = 0; j < myArray.size(); j++) {
+                        System.out.println((j + 1) + "." + myArray.get(j));
+                    }
+                    System.out.println(horzline);
                 }
-                System.out.println(horzline);
             } else {
                 DateAndTimeConverter c = new DateAndTimeConverter();
                 String[] splitted = input.split(" ");
@@ -54,6 +59,24 @@ public class Duke {
                             }
                         }
                         break;
+                    case "delete":
+                        try {
+                            int taskNum = Integer.parseInt(splitted[1]) - 1;
+                            myArray.remove(taskNum);
+                            i--;
+                            System.out.println(horzline + "\n" + "Noted. I've removed this task:");
+                            System.out.println(myArray.get(taskNum));
+                            String t = (myArray.size() == 1 ? " task" : " tasks");
+                            System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
+                        } catch (Exception e) {
+                            if (splitted.length == 1) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a delete cannot be empty.\n" + horzline);
+
+                            } else {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The number is out of range.\n" + horzline);
+                            }
+                        }
+                        break;
                     case "todo":
                         try {
                             String temp = "";
@@ -66,7 +89,8 @@ public class Duke {
                             } else {
                                 myArray.add(new ToDo(temp));
                                 System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
-                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
+                                String t = (myArray.size() == 1 ? " task" : " tasks");
+                                System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
@@ -95,7 +119,8 @@ public class Duke {
                                 tempBy = c.convert(tempBy);
                                 myArray.add(new Deadline(tempTask.trim(), tempBy.trim()));
                                 System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
-                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
+                                String t = (myArray.size() == 1 ? " task" : " tasks");
+                                System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
@@ -124,7 +149,8 @@ public class Duke {
                                 tempAt = c.convert(tempAt);
                                 myArray.add(new Event(tempTask.trim(), tempAt.trim()));
                                 System.out.println(horzline + "\n" + "Got it. I've added this task:\n" + " " + myArray.get(i));
-                                System.out.println("Now you have " + myArray.size() + " tasks in the list.\n" + horzline);
+                                String t = (myArray.size() == 1 ? " task" : " tasks");
+                                System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
                                 i++;
                             }
                         } catch (Exception e) {
