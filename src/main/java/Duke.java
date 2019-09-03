@@ -157,6 +157,40 @@ public class Duke {
                             System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
                         }
                         break;
+                    case "find":
+                        try {
+                            if (splitted.length == 1) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a find task cannot be empty.\n" + horzline);
+                            } else {
+                                String toFind = "";
+                                for (int x = 1; x < splitted.length; x++) {
+                                    toFind += splitted[x] + " ";
+                                }
+                                toFind = toFind.trim();
+                                ArrayList<Task> findArray = new ArrayList<>();
+                                for (int x = 0; x < myArray.size(); x++) {
+                                    if (myArray.get(x).getDescription().contains(" " + toFind + " ")
+                                            || myArray.get(x).getDescription().contains(" " + toFind)
+                                            || myArray.get(x).getDescription().contains(toFind + " ")) {
+                                        findArray.add(myArray.get(x));
+                                    }
+                                }
+                                if (findArray.size() == 0) {
+                                    System.out.println(horzline + "\nSorry. There are no matching tasks in your list.\n" + horzline);
+                                } else {
+                                    String is = (findArray.size() == 1 ? "is" : "are");
+                                    String t = (findArray.size() == 1 ? "task" : "tasks");
+                                    System.out.println(horzline + "\nHere " + is + " the matching " + t + " in your list:");
+                                    for (int j = 0; j < findArray.size(); j++) {
+                                        System.out.println((j + 1) + "." + findArray.get(j));
+                                    }
+                                    System.out.println(horzline);
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
+                        }
+                        break;
                     default:
                         System.out.println(horzline + "\n" + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + horzline);
                         break;
