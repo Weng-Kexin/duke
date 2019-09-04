@@ -62,12 +62,16 @@ public class Duke {
                     case "delete":
                         try {
                             int taskNum = Integer.parseInt(splitted[1]) - 1;
-                            myArray.remove(taskNum);
-                            i--;
-                            System.out.println(horzline + "\n" + "Noted. I've removed this task:");
-                            System.out.println(myArray.get(taskNum));
-                            String t = (myArray.size() == 1 ? " task" : " tasks");
-                            System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
+                            if ((taskNum + 1) > myArray.size() || taskNum < 0) {
+                                System.out.println(horzline + "\n" + "☹ OOPS!!! The number is out of range.\n" + horzline);
+                            } else {
+                                i--;
+                                System.out.println(horzline + "\n" + "Noted. I've removed this task:");
+                                System.out.println(" " + myArray.get(taskNum));
+                                myArray.remove(taskNum);
+                                String t = (myArray.size() == 1 ? " task" : " tasks");
+                                System.out.println("Now you have " + myArray.size() + t + " in the list.\n" + horzline);
+                            }
                         } catch (Exception e) {
                             if (splitted.length == 1) {
                                 System.out.println(horzline + "\n" + "☹ OOPS!!! The description of a delete cannot be empty.\n" + horzline);
@@ -166,12 +170,11 @@ public class Duke {
                                 for (int x = 1; x < splitted.length; x++) {
                                     toFind += splitted[x] + " ";
                                 }
-                                toFind = toFind.trim();
+                                toFind = " " + toFind;
                                 ArrayList<Task> findArray = new ArrayList<>();
                                 for (int x = 0; x < myArray.size(); x++) {
-                                    if (myArray.get(x).getDescription().contains(" " + toFind + " ")
-                                            || myArray.get(x).getDescription().contains(" " + toFind)
-                                            || myArray.get(x).getDescription().contains(toFind + " ")) {
+                                    String toMatch = " " + myArray.get(x).getDescription() + " ";
+                                    if (toMatch.contains(toFind)) {
                                         findArray.add(myArray.get(x));
                                     }
                                 }
