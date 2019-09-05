@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Ui {
 
     String logo = " ____        _        \n"
@@ -40,5 +42,19 @@ public class Ui {
 
     void outOfRange() {
         msg("☹ OOPS!!! The number is out of range.\n");
+    }
+
+    void list(ArrayList<Task> findArray) {
+        if (findArray.size() == 0) {
+            msg("Sorry. There are no matching tasks in your list.\n");
+        } else {
+            String is = (findArray.size() == 1 ? "is" : "are");
+            String t = (findArray.size() == 1 ? "task" : "tasks");
+            System.out.println(line + "\nHere " + is + " the matching " + t + " in your list:");
+            for (int j = 0; j < findArray.size(); j++) {
+                System.out.println((j + 1) + "." + findArray.get(j));
+            }
+            System.out.println(line);
+        }
     }
 }
