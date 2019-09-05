@@ -49,7 +49,7 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
         return true;
     }
 
-    String convert(String str) {
+    public String convert(String str) {
         String temp = "";
         String[] split = str.split(" ");
         if (split.length == 2) {

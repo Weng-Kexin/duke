@@ -17,7 +17,6 @@ public class Storage {
         while (sf.hasNextLine()) { //keep reading new line of duke.txt and add to Task
             temp = sf.nextLine();
             String[] splitted = temp.split(" ");
-
             if (splitted[0].equals("todo")) {
                 String tempStr = "";
                 for (int i = 2; i < splitted.length; i++) { //start from 2 because udw the task type and bool value
