@@ -1,5 +1,4 @@
-deadline 0 s awpoe /by we9i
-todo 0 s sss s
-event 0 sssssssss /at s
-todo 0 books hi books
-todo 0 books hi
+deadline 0 duke /by 12th Mar 2019, 8:00pm
+todo 0 ewr weic ewri
+todo 0 duke 
+todo 0 dukeeee 

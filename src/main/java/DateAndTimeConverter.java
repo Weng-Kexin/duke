@@ -1,4 +1,4 @@
-class DateAndTimeConverter { //contains bugs (time/date out of range will be undetected)
+public class DateAndTimeConverter { //contains bugs (time/date out of range will be undetected)
 
     private String convertDate(String str) {
         if (str.contains("/")) {

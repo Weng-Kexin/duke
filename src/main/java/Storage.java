@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class Storage {
 
     public void readFromFile(String filePath, ArrayList<Task> myArray) throws IOException {
-
         File f = new File(filePath);
         if (!f.exists()) {
             f.createNewFile();
