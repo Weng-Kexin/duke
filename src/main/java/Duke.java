@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Main class of duke, a personal assistant
+ */
 public class Duke {
     public static void main(String[] args) throws IOException {
 

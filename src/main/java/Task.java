@@ -1,3 +1,6 @@
+/**
+ * Class represents a task, consisting of a description and isDone
+ */
 public class Task {
     protected String description; //protected access is like public but not all can access
     protected boolean isDone;
@@ -11,6 +14,10 @@ public class Task {
         this.isDone = true;
     }
 
+    /**
+     * Method overrides the default toString method and returns the isDone symbol with the task description
+     * @return task description
+     */
     @Override
     public String toString() {
         if (this.isDone) {
@@ -20,7 +27,11 @@ public class Task {
         }
     }
 
-    public String textFormat() { //to store in text file, format is ".isDone .description"
+    /**
+     * Method to convert task to text form, to be stored in the text file on hard drive
+     * @return this.isDone + this.description
+     */
+    public String textFormat() {
         if (this.isDone) {
             return ("1 " + this.description);
         } else {
@@ -28,6 +39,9 @@ public class Task {
         }
     }
 
+    /**
+     * @return description of task
+     */
     public String getDescription() {
         return description;
     }

@@ -1,34 +1,38 @@
 import java.util.ArrayList;
 
+/**
+ * Class that has operations to mark as done/find items in list
+ */
 public class TaskList {
 
-    Ui ui = new Ui();
-
-    public void list(ArrayList<Task> myArray) {
-        if (myArray.size() == 0) {
-            ui.msg("There are no tasks in your list.\n");
-        } else {
-            System.out.println(ui.getLine() + "\n" + "Here are the tasks in your list:");
-            for (int j = 0; j < myArray.size(); j++) {
-                System.out.println((j + 1) + "." + myArray.get(j));
-            }
-            System.out.println(ui.getLine());
-        }
+    /**
+     * Method marks task as done
+     * @param myArray ArrayList storing the tasks
+     * @param splitted task to be marked as done
+     */
+    void markAsDone(ArrayList<Task> myArray, String[] splitted) {
+        String temp = splitted[1];
+        int taskNum = Integer.parseInt(temp) - 1;
+        myArray.get(taskNum).markAsDone(); //use get to modify/access the element
     }
 
-    public void findInList(ArrayList<Task> myArray, String[] splitted) {
+    /**
+     * Method finds matching tasks in arraylist and stores it in findArray
+     * @param myArray ArrayList storing the tasks
+     * @param splitted string to find the matching tasks
+     * @param findArray ArrayList storing the matching tasks
+     */
+    void findInList(ArrayList<Task> myArray, String[] splitted, ArrayList<Task> findArray) {
         String toFind = "";
         for (int x = 1; x < splitted.length; x++) {
             toFind += splitted[x] + " ";
         }
         toFind = " " + toFind;
-        ArrayList<Task> findArray = new ArrayList<>();
         for (Task task : myArray) {
             String toMatch = " " + task.getDescription() + " ";
             if (toMatch.contains(toFind)) {
                 findArray.add(task);
             }
         }
-        ui.list(findArray);
     }
 }

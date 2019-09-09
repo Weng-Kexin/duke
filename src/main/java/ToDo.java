@@ -1,6 +1,9 @@
+/**
+ * Class inherits from task
+ */
 public class ToDo extends Task {
 
-    public ToDo(String description) {
+    ToDo(String description) {
         super(description);
     }
 

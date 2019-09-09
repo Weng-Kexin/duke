@@ -1,7 +1,10 @@
+/**
+ * Class that inherits from Task with additional information about /by
+ */
 public class Deadline extends Task {
     protected String by;
 
-    public Deadline(String description, String by) {
+    Deadline(String description, String by) {
         super(description);
         this.by = by;
     }

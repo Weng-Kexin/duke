@@ -1,24 +1,24 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * deals with making sense of the user command
+/**
+ * Class deals with making sense of the user command
  */
 public class Parser {
 
-    Ui ui = new Ui();
-    TaskList t = new TaskList();
+    private Ui ui = new Ui();
+    private TaskList t = new TaskList();
 
-    /*
-     * done, delete, todo, deadline, event, find functions
+    /**
+     * Method updates task splitted[] as done
+     * @param myArray ArrayList storing the tasks
+     * @param splitted task to be marked done
      */
-    void done(ArrayList<Task> myArray, String[] splitted) {
+    private void done(ArrayList<Task> myArray, String[] splitted) {
         try {
-            String temp = splitted[1];
-            int taskNum = Integer.parseInt(temp) - 1;
-            myArray.get(taskNum).markAsDone(); //use get to modify/access the element
-            System.out.println(ui.getLine() + "\n" + "Nice! I've marked this task as done:");
-            System.out.println(myArray.get(taskNum) + "\n" + ui.getLine());
+            t.markAsDone(myArray, splitted);
+            System.out.print(ui.getLine() + "\n" + "Nice! I've marked this task as done:\n ");
+            System.out.println(myArray.size() - 1 + "\n" + ui.getLine()); //-1 cause indexing
         } catch (Exception e) {
             if (splitted.length == 1) {
                 ui.emptyMsg(splitted[0]);
@@ -28,13 +28,17 @@ public class Parser {
         }
     }
 
-    void delete(ArrayList<Task> myArray, String[] splitted, int i) {
+    /**
+     * Method deletes task splitted[]
+     * @param myArray ArrayList storing the tasks
+     * @param splitted task to be deleted
+     */
+    private void delete(ArrayList<Task> myArray, String[] splitted) {
         try {
             int taskNum = Integer.parseInt(splitted[1]) - 1;
             if ((taskNum + 1) > myArray.size() || taskNum < 0) {
                 ui.outOfRange();
             } else {
-                i--;
                 System.out.println(ui.getLine() + "\n" + "Noted. I've removed this task:");
                 System.out.println(" " + myArray.get(taskNum));
                 myArray.remove(taskNum);
@@ -50,7 +54,12 @@ public class Parser {
 
     }
 
-    void todo(ArrayList<Task> myArray, String[] splitted, int i) {
+    /**
+     * Method splits todo into description
+     * @param myArray ArrayList storing the tasks
+     * @param splitted todo description
+     */
+    private void todo(ArrayList<Task> myArray, String[] splitted) {
         try {
             String temp = "";
             for (int k = 1; k < splitted.length; k++) {
@@ -61,16 +70,20 @@ public class Parser {
                 ui.emptyMsg(splitted[0]);
             } else {
                 myArray.add(new ToDo(temp));
-                ui.addedTask(myArray.get(i));
+                ui.addedTask(myArray.get(myArray.size() - 1));
                 ui.numOfTasksMsg(myArray.size());
-                i++;
             }
         } catch (Exception e) {
             ui.errorMsg();
         }
     }
 
-    void deadline(ArrayList<Task> myArray, String[] splitted, int i) {
+    /**
+     * Method splits deadline into description and date and time
+     * @param myArray ArrayList storing the tasks
+     * @param splitted deadline to be split into description and date and time
+     */
+    private void deadline(ArrayList<Task> myArray, String[] splitted) {
         DateAndTimeConverter c = new DateAndTimeConverter();
         try {
             String tempTask = "", tempBy = "";
@@ -92,16 +105,21 @@ public class Parser {
             } else {
                 tempBy = c.convert(tempBy);
                 myArray.add(new Deadline(tempTask.trim(), tempBy.trim()));
-                ui.addedTask(myArray.get(i));
+                ui.addedTask(myArray.get(myArray.size() - 1));
                 ui.numOfTasksMsg(myArray.size());
-                i++;
+
             }
         } catch (Exception e) {
             ui.errorMsg();
         }
     }
 
-    void event(ArrayList<Task> myArray, String[] splitted, int i) {
+    /**
+     * Method splits event into event and date and time
+     * @param myArray ArrayList storing the tasks
+     * @param splitted input to be split into event and date and time
+     */
+    private void event(ArrayList<Task> myArray, String[] splitted) {
         DateAndTimeConverter c = new DateAndTimeConverter();
         try {
             String tempTask = "", tempAt = "";
@@ -123,40 +141,46 @@ public class Parser {
             } else {
                 tempAt = c.convert(tempAt);
                 myArray.add(new Event(tempTask.trim(), tempAt.trim()));
-                ui.addedTask(myArray.get(i));
+                ui.addedTask(myArray.get(myArray.size() - 1));
                 ui.numOfTasksMsg(myArray.size());
-                i++;
             }
         } catch (Exception e) {
             ui.errorMsg();
         }
     }
 
-    void find(ArrayList<Task> myArray, String[] splitted) {
+    /**
+     * Method finds matching strings with splitted[] in myArray and stores it in printArray to be printed
+     * @param myArray ArrayList storing the tasks
+     * @param splitted string to find the matching tasks
+     * @param printArray ArrayList storing the matching tasks
+     */
+    private void find(ArrayList<Task> myArray, String[] splitted, ArrayList<Task> printArray) {
         try {
             if (splitted.length == 1) {
                 ui.emptyMsg((splitted[0]));
             } else {
-                t.findInList(myArray, splitted);
+                t.findInList(myArray, splitted, printArray);
             }
         } catch (Exception e) {
             ui.errorMsg();
         }
     }
 
-    /*
-     * The main method being used
+    /**
+     * Method makes sense of user input and calls the corresponding method
+     * @param myArray ArrayList storing the tasks
      */
     void parse(ArrayList<Task> myArray) {
-        int i = myArray.size();
         while (true) {
+            int i = myArray.size();
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             if (input.equals("bye")) { //cant use "==" to compare strings **it only compares the memory address
                 ui.msg("Bye. Hope to see you again soon!\n");
                 break;
             } else if (input.equals("list")) { //list the array directly from Task[]
-                t.list(myArray);
+                ui.list(myArray);
             } else {
                 String[] splitted = input.split(" ");
                 switch (splitted[0]) {
@@ -164,19 +188,21 @@ public class Parser {
                         done(myArray, splitted);
                         break;
                     case "delete":
-                        delete(myArray, splitted, i);
+                        delete(myArray, splitted);
                         break;
                     case "todo":
-                        todo(myArray, splitted, i);
+                        todo(myArray, splitted);
                         break;
                     case "deadline":
-                        deadline(myArray, splitted, i);
+                        deadline(myArray, splitted);
                         break;
                     case "event":
-                        event(myArray, splitted, i);
+                        event(myArray, splitted);
                         break;
                     case "find":
-                        find(myArray, splitted);
+                        ArrayList<Task> printArray = new ArrayList<>();
+                        find(myArray, splitted, printArray);
+                        ui.listMatches(printArray);
                         break;
                     default:
                         ui.errorMsg();

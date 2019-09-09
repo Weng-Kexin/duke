@@ -1,5 +1,13 @@
+/**
+ * Class to convert date and time from dd/mm/yyyy and 24 hr format to dd mmm yyyy, 12 hr format
+ */
 public class DateAndTimeConverter { //contains bugs (time/date out of range will be undetected)
 
+    /**
+     * Method converts dd/mm/yyyy string to dd mmm yyyy format
+     * @param str in dd/mm/yyyy format
+     * @return string in appropriate date format
+     */
     private String convertDate(String str) {
         if (str.contains("/")) {
             String[] split = str.split("/");
@@ -22,6 +30,11 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
         return str;
     }
 
+    /**
+     * Method converts time from 24hrs format to 12hrs
+     * @param str in 24hrs format
+     * @return str in 12hrs format
+     */
     private String convertTime(String str) {
         if (str.contains("am") || str.contains("pm")) {
             return str;
@@ -42,6 +55,11 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
         }
     }
 
+    /**
+     * Method to check if str is numeric
+     * @param str
+     * @return true, false
+     */
     private static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c)) return false;
@@ -49,6 +67,11 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
         return true;
     }
 
+    /**
+     * Method to convert both date and time to correct format by calling convertDate and convertTime
+     * @param str
+     * @return string in correct format
+     */
     public String convert(String str) {
         String temp = "";
         String[] split = str.split(" ");

@@ -4,9 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class to store the task array on the hard drive
+ */
 public class Storage {
 
-    public void readFromFile(String filePath, ArrayList<Task> myArray) throws IOException {
+    /**
+     * Method reads data from file and stores it in an ArrayList with the correct format
+     * @param filePath
+     * @param myArray
+     * @throws IOException
+     */
+    void readFromFile(String filePath, ArrayList<Task> myArray) throws IOException {
         File f = new File(filePath);
         if (!f.exists()) {
             f.createNewFile();
@@ -65,7 +74,13 @@ public class Storage {
         }
     }
 
-    public void saveToFile(ArrayList<Task> myArray, String filePath) throws IOException {
+    /**
+     * Method saves array to a file located in filepath with the format given in textFormat()
+     * @param myArray
+     * @param filePath
+     * @throws IOException
+     */
+    void saveToFile(ArrayList<Task> myArray, String filePath) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         for (Task t: myArray) {
             fw.write(t.textFormat());
