@@ -3,11 +3,16 @@
  */
 public class ToDo extends Task {
 
+    /**
+     * Instantiates a new ToDo.
+     *
+     * @param description the description
+     */
     ToDo(String description) {
         super(description);
     }
 
-    @Override //this override will override the Task.java override
+    @Override
     public String toString() {
         if (this.isDone) {
             return ("[T][\u2713] " + this.description);
@@ -16,7 +21,7 @@ public class ToDo extends Task {
         }
     }
 
-    @Override //this override will override the Task.java override
+    @Override
     public String textFormat() {
         return ("todo " + super.textFormat());
     }

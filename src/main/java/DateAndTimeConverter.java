@@ -1,7 +1,7 @@
 /**
  * Class to convert date and time from dd/mm/yyyy and 24 hr format to dd mmm yyyy, 12 hr format
  */
-public class DateAndTimeConverter { //contains bugs (time/date out of range will be undetected)
+public class DateAndTimeConverter {
 
     /**
      * Method converts dd/mm/yyyy string to dd mmm yyyy format
@@ -9,6 +9,7 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
      * @return string in appropriate date format
      */
     private String convertDate(String str) {
+        String returnStr = "";
         if (str.contains("/")) {
             String[] split = str.split("/");
             String day = split[0], month = split[1], year = split[2];
@@ -26,21 +27,24 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
             String[] months = {"Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"}; //SWITCH TO ENUM
             month = months[tempMonth - 1]; //- 1 cause indexing
             return day + " " + month + " " + year;
+        } else {
+            returnStr = str;
         }
-        return str;
+        return returnStr;
     }
 
     /**
-     * Method converts time from 24hrs format to 12hrs
-     * @param str in 24hrs format
-     * @return str in 12hrs format
+     * Method converts time from 24hr format to 12hr
+     * @param str in 24hr format
+     * @return str in 12hr format
      */
     private String convertTime(String str) {
+        String returnStr = "";
         if (str.contains("am") || str.contains("pm")) {
-            return str;
+            returnStr = str;
         } else {
             String hr = str.substring(0, 2), min = str.substring(2, 4), m = "";
-            int hh = Integer.parseInt(hr); //mins = Integer.parseInt(min);
+            int hh = Integer.parseInt(hr);
             if (hh < 12) {
                 m = "am";
             } else {
@@ -51,14 +55,15 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
                 hh = 12;
             }
             hr = Integer.toString(hh);
-            return hr + ":" + min + m;
+            returnStr = hr + ":" + min + m;
         }
+        return returnStr;
     }
 
     /**
      * Method to check if str is numeric
-     * @param str
-     * @return true, false
+     * @param str to check if is numeric
+     * @return true if is numeric, else false
      */
     private static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
@@ -69,23 +74,24 @@ public class DateAndTimeConverter { //contains bugs (time/date out of range will
 
     /**
      * Method to convert both date and time to correct format by calling convertDate and convertTime
-     * @param str
+     *
+     * @param str the str
      * @return string in correct format
      */
-    public String convert(String str) {
-        String temp = "";
+    public String timeAndDateConverter(String str) {
+        String returnStr = "";
         String[] split = str.split(" ");
         if (split.length == 2) {
             String date = convertDate(split[0]);
             String time = convertTime(split[1]);
-            temp += date + ", " + time;
+            returnStr += date + ", " + time;
         } else {
             if (isNumeric(split[0])) { //is time
-                temp = convertTime(split[0]);
+                returnStr = convertTime(split[0]);
             } else {
-                temp = convertDate(split[0]);
+                returnStr = convertDate(split[0]);
             }
         }
-        return temp;
+        return returnStr;
     }
 }

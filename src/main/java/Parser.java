@@ -21,9 +21,9 @@ public class Parser {
             System.out.println(myArray.size() - 1 + "\n" + ui.getLine()); //-1 cause indexing
         } catch (Exception e) {
             if (splitted.length == 1) {
-                ui.emptyMsg(splitted[0]);
+                ui.emptyMsgPrinter(splitted[0]);
             } else {
-                ui.outOfRange();
+                ui.outOfRangePrinter();
             }
         }
     }
@@ -37,18 +37,18 @@ public class Parser {
         try {
             int taskNum = Integer.parseInt(splitted[1]) - 1;
             if ((taskNum + 1) > myArray.size() || taskNum < 0) {
-                ui.outOfRange();
+                ui.outOfRangePrinter();
             } else {
                 System.out.println(ui.getLine() + "\n" + "Noted. I've removed this task:");
                 System.out.println(" " + myArray.get(taskNum));
                 myArray.remove(taskNum);
-                ui.numOfTasksMsg(myArray.size());
+                ui.numOfTasksPrinter(myArray.size());
             }
         } catch (Exception e) {
             if (splitted.length == 1) {
-                ui.emptyMsg(splitted[0]);
+                ui.emptyMsgPrinter(splitted[0]);
             } else {
-                ui.outOfRange();
+                ui.outOfRangePrinter();
             }
         }
 
@@ -67,14 +67,14 @@ public class Parser {
                 temp += " ";
             }
             if (splitted.length == 1) { //the exception handling for todo
-                ui.emptyMsg(splitted[0]);
+                ui.emptyMsgPrinter(splitted[0]);
             } else {
                 myArray.add(new ToDo(temp));
-                ui.addedTask(myArray.get(myArray.size() - 1));
-                ui.numOfTasksMsg(myArray.size());
+                ui.addedTaskPrinter(myArray.get(myArray.size() - 1));
+                ui.numOfTasksPrinter(myArray.size());
             }
         } catch (Exception e) {
-            ui.errorMsg();
+            ui.errorMsgPrinter();
         }
     }
 
@@ -101,16 +101,16 @@ public class Parser {
                 }
             }
             if (!isBy || splitted.length == 1) {
-                ui.emptyMsg(splitted[0]);
+                ui.emptyMsgPrinter(splitted[0]);
             } else {
-                tempBy = c.convert(tempBy);
+                tempBy = c.timeAndDateConverter(tempBy);
                 myArray.add(new Deadline(tempTask.trim(), tempBy.trim()));
-                ui.addedTask(myArray.get(myArray.size() - 1));
-                ui.numOfTasksMsg(myArray.size());
+                ui.addedTaskPrinter(myArray.get(myArray.size() - 1));
+                ui.numOfTasksPrinter(myArray.size());
 
             }
         } catch (Exception e) {
-            ui.errorMsg();
+            ui.errorMsgPrinter();
         }
     }
 
@@ -137,15 +137,15 @@ public class Parser {
                 }
             }
             if (!isAt || splitted.length == 1) {
-                ui.emptyMsg(splitted[0]);
+                ui.emptyMsgPrinter(splitted[0]);
             } else {
-                tempAt = c.convert(tempAt);
+                tempAt = c.timeAndDateConverter(tempAt);
                 myArray.add(new Event(tempTask.trim(), tempAt.trim()));
-                ui.addedTask(myArray.get(myArray.size() - 1));
-                ui.numOfTasksMsg(myArray.size());
+                ui.addedTaskPrinter(myArray.get(myArray.size() - 1));
+                ui.numOfTasksPrinter(myArray.size());
             }
         } catch (Exception e) {
-            ui.errorMsg();
+            ui.errorMsgPrinter();
         }
     }
 
@@ -158,29 +158,29 @@ public class Parser {
     private void find(ArrayList<Task> myArray, String[] splitted, ArrayList<Task> printArray) {
         try {
             if (splitted.length == 1) {
-                ui.emptyMsg((splitted[0]));
+                ui.emptyMsgPrinter((splitted[0]));
             } else {
                 t.findInList(myArray, splitted, printArray);
             }
         } catch (Exception e) {
-            ui.errorMsg();
+            ui.errorMsgPrinter();
         }
     }
 
     /**
      * Method makes sense of user input and calls the corresponding method
+     *
      * @param myArray ArrayList storing the tasks
      */
     void parse(ArrayList<Task> myArray) {
         while (true) {
-            int i = myArray.size();
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             if (input.equals("bye")) { //cant use "==" to compare strings **it only compares the memory address
-                ui.msg("Bye. Hope to see you again soon!\n");
+                ui.msgPrinter("Bye. Hope to see you again soon!\n");
                 break;
             } else if (input.equals("list")) { //list the array directly from Task[]
-                ui.list(myArray);
+                ui.taskLister(myArray);
             } else {
                 String[] splitted = input.split(" ");
                 switch (splitted[0]) {
@@ -202,10 +202,10 @@ public class Parser {
                     case "find":
                         ArrayList<Task> printArray = new ArrayList<>();
                         find(myArray, splitted, printArray);
-                        ui.listMatches(printArray);
+                        ui.matchingTasksPrinter(printArray);
                         break;
                     default:
-                        ui.errorMsg();
+                        ui.errorMsgPrinter();
                         break;
                 }
             }

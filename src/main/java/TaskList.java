@@ -7,7 +7,8 @@ public class TaskList {
 
     /**
      * Method marks task as done
-     * @param myArray ArrayList storing the tasks
+     *
+     * @param myArray  ArrayList storing the tasks
      * @param splitted task to be marked as done
      */
     void markAsDone(ArrayList<Task> myArray, String[] splitted) {
@@ -18,8 +19,9 @@ public class TaskList {
 
     /**
      * Method finds matching tasks in arraylist and stores it in findArray
-     * @param myArray ArrayList storing the tasks
-     * @param splitted string to find the matching tasks
+     *
+     * @param myArray   ArrayList storing the tasks
+     * @param splitted  string to find the matching tasks
      * @param findArray ArrayList storing the matching tasks
      */
     void findInList(ArrayList<Task> myArray, String[] splitted, ArrayList<Task> findArray) {

@@ -11,9 +11,10 @@ public class Storage {
 
     /**
      * Method reads data from file and stores it in an ArrayList with the correct format
-     * @param filePath
-     * @param myArray
-     * @throws IOException
+     *
+     * @param filePath the file path
+     * @param myArray  the array storing all tasks
+     * @throws IOException the io exception
      */
     void readFromFile(String filePath, ArrayList<Task> myArray) throws IOException {
         File f = new File(filePath);
@@ -66,8 +67,8 @@ public class Storage {
                 }
                 myArray.add(new Event(tempStr.trim(), tempAt.trim()));
             }
-            //mark as done
-            if (splitted[1].equals("1")) {
+
+            if (splitted[1].equals("1")) { //mark as done
                 myArray.get(j).markAsDone();
             }
             j++;
@@ -76,9 +77,10 @@ public class Storage {
 
     /**
      * Method saves array to a file located in filepath with the format given in textFormat()
-     * @param myArray
-     * @param filePath
-     * @throws IOException
+     *
+     * @param myArray  the my array
+     * @param filePath the file path
+     * @throws IOException the io exception
      */
     void saveToFile(ArrayList<Task> myArray, String filePath) throws IOException {
         FileWriter fw = new FileWriter(filePath);
